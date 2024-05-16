@@ -5,6 +5,24 @@ description = "A AIOHTTP response class streaming a directory as ZIP archive"
 authors = ["Jonathan Ehwald <github@ehwald.info>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/DoctorJohn/aiohttp-zip-response"
+repository = "https://github.com/DoctorJohn/aiohttp-zip-response"
+documentation = "https://github.com/DoctorJohn/aiohttp-zip-response"
+classifiers = [
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
