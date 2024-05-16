@@ -1,5 +1,19 @@
 # AIOHTTP ZIP Response
 
+[![Versions][versions-image]][versions-url]
+[![PyPI][pypi-image]][pypi-url]
+[![Codecov][codecov-image]][codecov-url]
+[![License][license-image]][license-url]
+
+[versions-image]: https://img.shields.io/pypi/pyversions/aiohttp-zip-response
+[versions-url]: https://github.com/DoctorJohn/aiohttp-zip-response/blob/master/setup.py
+[pypi-image]: https://img.shields.io/pypi/v/aiohttp-zip-response
+[pypi-url]: https://pypi.org/project/aiohttp-zip-response/
+[codecov-image]: https://codecov.io/gh/DoctorJohn/aiohttp-zip-response/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/DoctorJohn/aiohttp-zip-response
+[license-image]: https://img.shields.io/pypi/l/aiohttp-zip-response
+[license-url]: https://github.com/DoctorJohn/aiohttp-zip-response/blob/master/LICENSE
+
 A AIOHTTP response class streaming a directory as ZIP archive.
 
 ## Installation
