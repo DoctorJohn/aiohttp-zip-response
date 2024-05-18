@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiohttp-zip-response"
-version = "1.0.1"
+version = "1.0.2"
 description = "A AIOHTTP response class streaming a directory as ZIP archive"
 authors = ["Jonathan Ehwald <github@ehwald.info>"]
 license = "MIT"
