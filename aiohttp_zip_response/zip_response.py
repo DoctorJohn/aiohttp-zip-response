@@ -4,7 +4,7 @@ from typing import AsyncGenerator, Optional
 
 from aiohttp import web
 from aiohttp.typedefs import LooseHeaders, PathLike
-from stream_zip import ZIP_32, async_stream_zip, AsyncMemberFile
+from stream_zip import ZIP_32, AsyncMemberFile, async_stream_zip
 
 
 class ZipResponse(web.StreamResponse):
