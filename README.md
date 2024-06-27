@@ -40,3 +40,7 @@ app = web.Application()
 app.router.add_get('/zip', handle_zip)
 web.run_app(app)
 ```
+
+## Caveats
+
+- The `Content-Length` header is not set because the size of the ZIP archive is not known in advance. This means clients such as browsers cannot display a download progress bar.
