@@ -17,7 +17,7 @@
 A AIOHTTP response class streaming the contents of a directory as a ZIP archive.
 Thanks to [stream-zip](https://github.com/uktrade/stream-zip/), this works **without storing the entire ZIP in memory or disk**.
 
-Generally, this package is meant to complement the existing `aiohttp.web.FileResponse` class, which can already stream the contents of a single file.
+Generally, this package is meant to complement the existing `aiohttp.web.FileResponse` class which can be used to stream the contents of a single file.
 
 ## Installation
 
