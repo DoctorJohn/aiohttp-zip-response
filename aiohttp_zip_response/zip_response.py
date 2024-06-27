@@ -4,7 +4,7 @@ from typing import AsyncGenerator, Optional
 
 from aiohttp import web
 from aiohttp.typedefs import LooseHeaders, PathLike
-from stream_zip import ZIP_32, async_stream_zip  # type: ignore
+from stream_zip import ZIP_32, async_stream_zip, AsyncMemberFile
 
 
 class ZipResponse(web.StreamResponse):
@@ -32,7 +32,7 @@ class ZipResponse(web.StreamResponse):
 
         await self.write_eof()
 
-    async def yield_members(self):
+    async def yield_members(self) -> AsyncGenerator[AsyncMemberFile, None]:
         for sub_path in self._path.glob("**/*"):
             lstat = sub_path.lstat()
             yield (
