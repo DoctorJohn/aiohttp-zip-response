@@ -7,7 +7,7 @@ from aiohttp.typedefs import LooseHeaders, PathLike
 from stream_zip import ZIP_32, async_stream_zip  # type: ignore
 
 
-class ZipResponse(web.Response):
+class ZipResponse(web.StreamResponse):
     def __init__(
         self,
         path: PathLike,
@@ -19,11 +19,18 @@ class ZipResponse(web.Response):
         self._path = Path(path)
         self._chunk_size = chunk_size
         return super().__init__(
-            body=async_stream_zip(self.yield_members()),
             status=status,
             reason=reason,
             headers=headers,
         )
+
+    async def prepare(self, request: web.BaseRequest) -> None:
+        await super().prepare(request)
+
+        async for chunk in async_stream_zip(self.yield_members()):
+            await self.write(chunk)
+
+        await self.write_eof()
 
     async def yield_members(self):
         for sub_path in self._path.glob("**/*"):
