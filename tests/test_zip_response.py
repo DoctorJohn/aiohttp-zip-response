@@ -102,6 +102,56 @@ async def test_download_of_a_file_symlink(tmp_path, cli):
     assert extracted_link_path.resolve() == extracted_file_path.resolve()
 
 
+@pytest.mark.skipif(shutil.which("unzip") is None, reason="Requires unzip")
+@pytest.mark.xfail(reason="Directory symlinks don't appear to be supported upstream")
+async def test_download_of_a_directory_symlink(tmp_path, cli):
+    dir_path = tmp_path / "some-dir"
+    dir_path.mkdir()
+
+    link_path = tmp_path / "dir-link"
+    link_path.symlink_to(dir_path, target_is_directory=True)
+
+    response = await cli.get("/default/", params={"path": str(tmp_path)})
+    response.raise_for_status()
+
+    data = await response.read()
+    archive = ZipFile(BytesIO(data))
+
+    namelist = archive.namelist()
+    assert len(namelist) == 2
+    assert "some-dir/" in namelist
+    assert "dir-link/" in namelist
+
+    archive_path = tmp_path / "archive.zip"
+    archive_path.write_bytes(data)
+
+    # Neither zipfile.TarFile.extractall nor shutil.unpack_archive extract symlinks
+    os.system(f"unzip -o {archive_path} -d {tmp_path / 'extracted'}")
+
+    extracted_dir_path = tmp_path / "extracted" / "some-dir"
+    extracted_link_path = tmp_path / "extracted" / "dir-link"
+    assert extracted_dir_path.is_dir()
+    assert extracted_link_path.is_symlink()
+    assert extracted_link_path.resolve() == extracted_dir_path.resolve()
+
+
+async def test_directory_symlinks_are_not_included(tmp_path, cli):
+    dir_path = tmp_path / "some-dir"
+    dir_path.mkdir()
+
+    link_path = tmp_path / "dir-link"
+    link_path.symlink_to(dir_path, target_is_directory=True)
+
+    response = await cli.get("/default/", params={"path": str(tmp_path)})
+    response.raise_for_status()
+
+    data = await response.read()
+    archive = ZipFile(BytesIO(data))
+
+    assert len(archive.filelist) == 1
+    assert archive.getinfo("some-dir/").is_dir()
+
+
 async def test_empty_directory_results_in_empty_archive(tmp_path, cli):
     response = await cli.get("/default/", params={"path": str(tmp_path)})
     response.raise_for_status()
