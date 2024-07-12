@@ -42,13 +42,16 @@ class ZipResponse(web.StreamResponse):
             relative_member_path = member_path.relative_to(self._base_path)
 
             if member_path.is_symlink():
-                yield (
-                    str(relative_member_path),
-                    datetime.fromtimestamp(lstat.st_mtime),
-                    lstat.st_mode,
-                    ZIP_32,
-                    self.yield_member_chunks(member_path),
-                )
+                if member_path.is_file():
+                    yield (
+                        str(relative_member_path),
+                        datetime.fromtimestamp(lstat.st_mtime),
+                        lstat.st_mode,
+                        ZIP_32,
+                        self.yield_member_chunks(member_path),
+                    )
+                else:
+                    continue
 
             elif member_path.is_file():
                 yield (
