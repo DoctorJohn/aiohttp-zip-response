@@ -48,10 +48,8 @@ class ZipResponse(web.StreamResponse):
                         datetime.fromtimestamp(lstat.st_mtime),
                         lstat.st_mode,
                         ZIP_32,
-                        self.yield_member_chunks(member_path),
+                        self.yield_symlink_member_chunks(member_path),
                     )
-                else:
-                    continue
 
             elif member_path.is_file():
                 yield (
@@ -59,7 +57,7 @@ class ZipResponse(web.StreamResponse):
                     datetime.fromtimestamp(lstat.st_mtime),
                     lstat.st_mode,
                     ZIP_32,
-                    self.yield_member_chunks(member_path),
+                    self.yield_file_member_chunks(member_path),
                 )
 
             elif member_path.is_dir():
@@ -68,20 +66,23 @@ class ZipResponse(web.StreamResponse):
                     datetime.fromtimestamp(lstat.st_mtime),
                     lstat.st_mode,
                     ZIP_32,
-                    self.yield_member_chunks(member_path),
+                    self.yield_dir_member_chunks(member_path),
                 )
 
-    async def yield_member_chunks(self, path: Path) -> AsyncGenerator[bytes, None]:
-        if path.is_symlink():
-            yield str(path.resolve().relative_to(self._base_path)).encode()
-            return
+    async def yield_symlink_member_chunks(
+        self, path: Path
+    ) -> AsyncGenerator[bytes, None]:
+        yield str(path.resolve().relative_to(self._base_path)).encode()
+        return
 
-        if path.is_dir():
-            return
-
+    async def yield_file_member_chunks(self, path: Path) -> AsyncGenerator[bytes, None]:
         with path.open("rb") as file:
             while True:
                 chunk = file.read(self._chunk_size)
                 if not chunk:
                     break
                 yield chunk
+
+    async def yield_dir_member_chunks(self, path: Path) -> AsyncGenerator[bytes, None]:
+        return
+        yield b""  # pragma: no cover
