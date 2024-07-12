@@ -39,8 +39,16 @@ class ZipResponse(web.StreamResponse):
     async def yield_member_files(self) -> AsyncGenerator[AsyncMemberFile, None]:
         async for member_path in self.yield_member_paths():
             lstat = member_path.lstat()
+            relative_member_path = member_path.relative_to(self._base_path)
+
+            member_name = (
+                f"{relative_member_path}/"
+                if member_path.is_dir()
+                else str(relative_member_path)
+            )
+
             yield (
-                str(member_path.relative_to(self._base_path)),
+                member_name,
                 datetime.fromtimestamp(lstat.st_mtime),
                 lstat.st_mode,
                 ZIP_32,
