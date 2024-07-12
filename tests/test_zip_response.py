@@ -21,8 +21,13 @@ async def test_download_of_nested_dirs_and_files(tmp_path, cli):
     namelist = archive.namelist()
     assert len(namelist) == 3
     assert "file.txt" in namelist
-    assert "dir" in namelist
+    assert "dir/" in namelist
     assert "dir/nested.txt" in namelist
+
+    assert len(archive.filelist) == 3
+    assert archive.getinfo("dir/").is_dir()
+    assert not archive.getinfo("file.txt").is_dir()
+    assert not archive.getinfo("dir/nested.txt").is_dir()
 
 
 async def test_download_of_single_dir(tmp_path, cli):
@@ -37,7 +42,10 @@ async def test_download_of_single_dir(tmp_path, cli):
 
     namelist = archive.namelist()
     assert len(namelist) == 1
-    assert "dir" in namelist
+    assert "dir/" in namelist
+
+    assert len(archive.filelist) == 1
+    assert archive.getinfo("dir/").is_dir()
 
 
 async def test_download_of_single_file(tmp_path, cli):
@@ -53,6 +61,9 @@ async def test_download_of_single_file(tmp_path, cli):
     namelist = archive.namelist()
     assert len(namelist) == 1
     assert "file.txt" in namelist
+
+    assert len(archive.filelist) == 1
+    assert not archive.getinfo("file.txt").is_dir()
 
 
 async def test_empty_directory_results_in_empty_archive(tmp_path, cli):
@@ -91,7 +102,7 @@ async def test_member_paths_are_relative(tmp_path, cli):
 
     namelist = archive.namelist()
     assert len(namelist) == 1
-    assert str(file_path.absolute) not in namelist
+    assert str(file_path.absolute()) not in namelist
     assert str(file_path.relative_to(tmp_path)) in namelist
 
 
@@ -126,7 +137,7 @@ async def test_custom_chunk_size(tmp_path, cli):
 
     namelist = archive.namelist()
     assert len(namelist) == 1
-    assert archive.getinfo(namelist[0]).file_size == 1024
+    assert archive.getinfo("file.txt").file_size == 1024
 
 
 async def test_custom_status_code(tmp_path, cli):
