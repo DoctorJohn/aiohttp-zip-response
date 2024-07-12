@@ -1,5 +1,9 @@
+import os
+import shutil
 from io import BytesIO
 from zipfile import ZipFile
+
+import pytest
 
 
 async def test_download_of_nested_dirs_and_files(tmp_path, cli):
@@ -64,6 +68,38 @@ async def test_download_of_single_file(tmp_path, cli):
 
     assert len(archive.filelist) == 1
     assert not archive.getinfo("file.txt").is_dir()
+
+
+@pytest.mark.skipif(shutil.which("unzip") is None, reason="Requires unzip")
+async def test_download_of_a_file_symlink(tmp_path, cli):
+    file_path = tmp_path / "file.txt"
+    file_path.write_text("test")
+
+    link_path = tmp_path / "file-link"
+    link_path.symlink_to(file_path)
+
+    response = await cli.get("/default/", params={"path": str(tmp_path)})
+    response.raise_for_status()
+
+    data = await response.read()
+    archive = ZipFile(BytesIO(data))
+
+    namelist = archive.namelist()
+    assert len(namelist) == 2
+    assert "file.txt" in namelist
+    assert "file-link" in namelist
+
+    archive_path = tmp_path / "archive.zip"
+    archive_path.write_bytes(data)
+
+    # Neither zipfile.TarFile.extractall nor shutil.unpack_archive extract symlinks
+    os.system(f"unzip -o {archive_path} -d {tmp_path / 'extracted'}")
+
+    extracted_file_path = tmp_path / "extracted" / "file.txt"
+    extracted_link_path = tmp_path / "extracted" / "file-link"
+    assert extracted_file_path.is_file()
+    assert extracted_link_path.is_symlink()
+    assert extracted_link_path.resolve() == extracted_file_path.resolve()
 
 
 async def test_empty_directory_results_in_empty_archive(tmp_path, cli):

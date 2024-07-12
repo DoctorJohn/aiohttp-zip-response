@@ -41,21 +41,38 @@ class ZipResponse(web.StreamResponse):
             lstat = member_path.lstat()
             relative_member_path = member_path.relative_to(self._base_path)
 
-            member_name = (
-                f"{relative_member_path}/"
-                if member_path.is_dir()
-                else str(relative_member_path)
-            )
+            if member_path.is_symlink():
+                yield (
+                    str(relative_member_path),
+                    datetime.fromtimestamp(lstat.st_mtime),
+                    lstat.st_mode,
+                    ZIP_32,
+                    self.yield_member_chunks(member_path),
+                )
 
-            yield (
-                member_name,
-                datetime.fromtimestamp(lstat.st_mtime),
-                lstat.st_mode,
-                ZIP_32,
-                self.yield_member_chunks(member_path),
-            )
+            elif member_path.is_file():
+                yield (
+                    str(relative_member_path),
+                    datetime.fromtimestamp(lstat.st_mtime),
+                    lstat.st_mode,
+                    ZIP_32,
+                    self.yield_member_chunks(member_path),
+                )
+
+            elif member_path.is_dir():
+                yield (
+                    f"{relative_member_path}/",
+                    datetime.fromtimestamp(lstat.st_mtime),
+                    lstat.st_mode,
+                    ZIP_32,
+                    self.yield_member_chunks(member_path),
+                )
 
     async def yield_member_chunks(self, path: Path) -> AsyncGenerator[bytes, None]:
+        if path.is_symlink():
+            yield str(path.resolve().relative_to(self._base_path)).encode()
+            return
+
         if path.is_dir():
             return
 
