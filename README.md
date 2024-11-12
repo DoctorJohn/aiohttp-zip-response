@@ -6,13 +6,13 @@
 [![License][license-image]][license-url]
 
 [versions-image]: https://img.shields.io/pypi/pyversions/aiohttp-zip-response
-[versions-url]: https://github.com/DoctorJohn/aiohttp-zip-response/blob/master/setup.py
+[versions-url]: https://github.com/DoctorJohn/aiohttp-zip-response/blob/main/pyproject.toml
 [pypi-image]: https://img.shields.io/pypi/v/aiohttp-zip-response
 [pypi-url]: https://pypi.org/project/aiohttp-zip-response/
 [codecov-image]: https://codecov.io/gh/DoctorJohn/aiohttp-zip-response/branch/main/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/DoctorJohn/aiohttp-zip-response
 [license-image]: https://img.shields.io/pypi/l/aiohttp-zip-response
-[license-url]: https://github.com/DoctorJohn/aiohttp-zip-response/blob/master/LICENSE
+[license-url]: https://github.com/DoctorJohn/aiohttp-zip-response/blob/main/LICENSE
 
 A AIOHTTP response class streaming the contents of a directory as a ZIP archive.
 Thanks to [stream-zip](https://github.com/uktrade/stream-zip/), this works **without storing the entire ZIP in memory or disk**.
