@@ -27,7 +27,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.9"
 aiohttp = "^3.9.5"
-stream-zip = "^0.0.81"
+stream-zip = "^0.0.83"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"
