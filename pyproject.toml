@@ -1,13 +1,12 @@
-[tool.poetry]
+[project]
 name = "aiohttp-zip-response"
 version = "2.3.0"
 description = "A AIOHTTP response class streaming a directory as ZIP archive"
-authors = ["Jonathan Ehwald <github@ehwald.info>"]
-license = "MIT"
+authors = [{ name = "Jonathan Ehwald", email = "github@ehwald.info" }]
+license = { text = "MIT" }
 readme = "README.md"
-homepage = "https://github.com/DoctorJohn/aiohttp-zip-response"
-repository = "https://github.com/DoctorJohn/aiohttp-zip-response"
-documentation = "https://github.com/DoctorJohn/aiohttp-zip-response"
+requires-python = ">=3.9,<4.0"
+dependencies = ["aiohttp (>=3.9.5,<4.0)", "stream-zip (>=0.0.83,<0.1.0)"]
 classifiers = [
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
@@ -24,10 +23,14 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-aiohttp = "^3.9.5"
-stream-zip = "^0.0.83"
+[project.urls]
+homepage = "https://github.com/DoctorJohn/aiohttp-zip-response"
+repository = "https://github.com/DoctorJohn/aiohttp-zip-response"
+documentation = "https://github.com/DoctorJohn/aiohttp-zip-response"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"
@@ -48,7 +51,3 @@ addopts = "--cov=aiohttp_zip_response --cov-report term-missing"
 
 [tool.mypy]
 check_untyped_defs = true
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
