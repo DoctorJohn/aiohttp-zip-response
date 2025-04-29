@@ -52,7 +52,7 @@ extend-select = ["I"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-addopts = "--cov=aiohttp_zip_response --cov-report term-missing"
+addopts = "--cov=aiohttp_zip_response --cov-report term-missing --cov-report html"
 
 [tool.mypy]
 check_untyped_defs = true
