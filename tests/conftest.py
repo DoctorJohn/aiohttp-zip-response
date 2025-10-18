@@ -39,11 +39,11 @@ async def custom_headers_handler(request: web.Request) -> web.StreamResponse:
 
 
 @pytest.fixture
-def cli(event_loop, aiohttp_client):
+async def cli(aiohttp_client):
     app = web.Application()
     app.router.add_get("/default/", default_handler)
     app.router.add_get("/custom-chunk-size/", custom_chunk_size_handler)
     app.router.add_get("/custom-status/", custom_status_handler)
     app.router.add_get("/custom-reason/", custom_reason_handler)
     app.router.add_get("/custom-headers/", custom_headers_handler)
-    return event_loop.run_until_complete(aiohttp_client(app))
+    return await aiohttp_client(app)
