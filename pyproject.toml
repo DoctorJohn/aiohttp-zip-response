@@ -53,7 +53,7 @@ dev = [
 packages = ["aiohttp_zip_response"]
 
 [tool.ruff.lint]
-extend-select = ["I"]
+extend-select = ["I", "UP"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
