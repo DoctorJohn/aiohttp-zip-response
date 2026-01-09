@@ -1,6 +1,7 @@
+from collections.abc import AsyncGenerator
 from datetime import datetime
 from pathlib import Path
-from typing import AsyncGenerator, Optional
+from typing import Optional
 
 from aiohttp import web
 from aiohttp.typedefs import LooseHeaders, PathLike
