@@ -27,4 +27,4 @@ jobs:
         run: |
           uv run ruff check aiohttp_zip_response tests
           uv run ruff format --diff aiohttp_zip_response tests
-          uv run mypy aiohttp_zip_response
+          uv run mypy aiohttp_zip_response tests
