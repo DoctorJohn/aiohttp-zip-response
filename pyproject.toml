@@ -36,7 +36,7 @@ documentation = "https://github.com/DoctorJohn/aiohttp-zip-response"
 [dependency-groups]
 dev = [
     "mypy>=1.15.0",
-    "pre-commit>=4.2.0",
+    "prek>=0.2.29",
     "pytest>=8.3.5",
     "pytest-aiohttp>=1.1.0",
     "pytest-asyncio>=0.26.0",
