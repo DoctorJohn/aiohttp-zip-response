@@ -1,7 +1,6 @@
 from collections.abc import AsyncGenerator
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 from aiohttp import web
 from aiohttp.typedefs import LooseHeaders, PathLike
@@ -14,8 +13,8 @@ class ZipResponse(web.StreamResponse):
         base_path: PathLike,
         chunk_size: int = 256 * 1024,
         status: int = 200,
-        reason: Optional[str] = None,
-        headers: Optional[LooseHeaders] = None,
+        reason: str | None = None,
+        headers: LooseHeaders | None = None,
     ) -> None:
         self._base_path = Path(base_path)
         self._chunk_size = chunk_size
