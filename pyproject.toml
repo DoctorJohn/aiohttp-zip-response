@@ -5,7 +5,7 @@ description = "A AIOHTTP response class streaming a directory as ZIP archive"
 authors = [{ name = "Jonathan Ehwald", email = "github@ehwald.info" }]
 license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.9,<4.0"
+requires-python = ">=3.10,<4.0"
 dependencies = ["aiohttp (>=3.9.5,<4.0)", "stream-zip (>=0.0.83,<0.1.0)"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -15,7 +15,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
