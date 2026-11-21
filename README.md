@@ -33,11 +33,11 @@ from aiohttp_zip_response import ZipResponse
 
 
 async def handle_zip(request):
-    return ZipResponse('path/to/directory')
+    return ZipResponse("path/to/directory")
 
 
 app = web.Application()
-app.router.add_get('/zip', handle_zip)
+app.router.add_get("/zip", handle_zip)
 web.run_app(app)
 ```
 
