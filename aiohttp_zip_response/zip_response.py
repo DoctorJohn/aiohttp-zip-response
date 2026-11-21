@@ -18,7 +18,7 @@ class ZipResponse(web.StreamResponse):
     ) -> None:
         self._base_path = Path(base_path)
         self._chunk_size = chunk_size
-        return super().__init__(
+        super().__init__(
             status=status,
             reason=reason,
             headers=headers,
