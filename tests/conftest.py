@@ -3,6 +3,8 @@ from aiohttp import web
 
 from aiohttp_zip_response import ZipResponse
 
+collect_ignore = ["smoke_test.py"]
+
 
 async def default_handler(request: web.Request) -> web.StreamResponse:
     return ZipResponse(
