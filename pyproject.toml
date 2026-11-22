@@ -1,7 +1,7 @@
 [project]
 name = "aiohttp-zip-response"
 version = "2.4.0"
-description = "A AIOHTTP response class streaming a directory as ZIP archive"
+description = "An AIOHTTP response class streaming a directory as a ZIP archive"
 authors = [{ name = "Jonathan Ehwald", email = "github@ehwald.info" }]
 license = "MIT"
 license-files = ["LICENSE"]
